@@ -1,10 +1,7 @@
 package com.example.S3_prac.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,5 +20,19 @@ public class Board {
   private String content;
 
   @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+  @Setter
   private List<Image> imageList = new ArrayList<>();
+
+  public void addImage(Image image) {
+    // 현재 Board 인스턴스에 Image 객체를 추가
+    this.imageList.add(image);
+    // Image 객체의 Board 참조를 현재 Board 인스턴스로 설정
+    image.setBoard(this);
+  }
+
+  // imageList NullPointException 발생으로 인한 CustomBuilder
+  public static Board.BoardBuilder customBuilder() {
+    return builder()
+      .imageList(new ArrayList<>());
+  }
 }

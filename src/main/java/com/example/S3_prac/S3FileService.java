@@ -35,17 +35,6 @@ public class S3FileService {
   private String bucket;
 
   @Transactional
-  public void createBoardAndImage() {
-
-    try {
-
-    } catch (Exception e) {
-      log.error("err: {}", e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "createBoardAndImage");
-    }
-  }
-
-  @Transactional
   public List<String> uploadIntoS3(String folder, List<MultipartFile> multipartFileList) {
     log.info("uploadIntoS3 tx start");
     List<String> imgUrlList = new ArrayList<>();
@@ -54,6 +43,7 @@ public class S3FileService {
       if (Objects.requireNonNull(file.getContentType()).contains("image")) {
 
         String filename = createFilename(file.getOriginalFilename());
+        log.info("filename: {}", filename);
         String fileFormat = file.getContentType().substring(file.getContentType().lastIndexOf("/")+1);
         log.info("fileFormat: : " + fileFormat);
 //                String fileExtension = this.getFileExtension(filename);
@@ -101,11 +91,6 @@ public class S3FileService {
   }
 
   @Transactional
-  public void deleteFile(String folder, String filename) {
-    amazonS3.deleteObject(bucket+folder, filename);
-  }
-
-  @Transactional
   public MultipartFile resizeImage(String filename, String fileFormat, MultipartFile originalFile, int targetWidth) {
     try {
       // MultipartFile -> BufferedImage 형태로 변환
@@ -136,4 +121,10 @@ public class S3FileService {
       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 리사이징에 실패했습니다.");
     }
   }
+
+  @Transactional
+  public void deleteFile(String folder, String filename) {
+    amazonS3.deleteObject(bucket + folder, filename);
+  }
+
 }

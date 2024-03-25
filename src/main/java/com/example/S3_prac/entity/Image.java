@@ -1,10 +1,7 @@
 package com.example.S3_prac.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Builder
@@ -20,5 +17,6 @@ public class Image {
 
   @ManyToOne(fetch = FetchType.LAZY) // 기본 타입 Eager
   @JoinColumn(name = "board_id")
+  @Setter
   private Board board;
 }
