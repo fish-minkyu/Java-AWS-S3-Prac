@@ -41,7 +41,7 @@ AWS S3 버킷에 이미지 업로드, 리사이징, 삭제를 연습하기 위�
 Body에서 form-data로 바꾸고 files - ${이미지 넣을 파일들}까진 동일하다.  
 그 다음, dto가 필요하다면 한 칸에 해당 dto의 모든 데이터를 넣어줘야 한다.  
 즉, value에 JSON 형태로 넣어줘야 한다.  
-![Static File](/image/RequestPart.png)
+![Image](image/RequestPart.png)
 
 
 2. `@RequestParam` + `@ModelAttribute` & imgUpload() 메서드
@@ -62,7 +62,7 @@ Body에서 form-data로 바꾸고 files - ${이미지 넣을 파일들}까진 �
 ```
 @Requestparam과 @ModelAttribute로 이미지 업로드를 하게 된다면   
 Body에서 form-data로 바꾼 다음 files와 dto의 필드들을 넣어주면 된다.  
-![static file2](/image/RequestParam.png)
+![Image](image/RequestParam.png)
 
 
 3. 연관관계 편의 메서드  
@@ -82,4 +82,5 @@ Entity 간의 관계를 설정을 더 명확하게 표현하기 위한 목적으
 
 ---
 
-### [Trouble Shooting](/TroubleShooting.md)
+## 그 외 
+[Trouble Shooting](TroubleShooting.md)
