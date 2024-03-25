@@ -1,4 +1,4 @@
-package com.example.S3_prac;
+package com.example.S3_prac.s3;
 
 import org.springframework.util.Assert;
 import org.springframework.util.FileCopyUtils;

@@ -6,6 +6,7 @@ import com.example.S3_prac.entity.Board;
 import com.example.S3_prac.entity.Image;
 import com.example.S3_prac.repo.BoardRepository;
 import com.example.S3_prac.repo.ImageRepository;
+import com.example.S3_prac.s3.S3FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

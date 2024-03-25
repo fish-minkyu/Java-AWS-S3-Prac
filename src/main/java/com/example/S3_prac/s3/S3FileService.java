@@ -1,4 +1,4 @@
-package com.example.S3_prac;
+package com.example.S3_prac.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;

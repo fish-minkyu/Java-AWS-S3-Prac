@@ -1,4 +1,4 @@
-package com.example.S3_prac;
+package com.example.S3_prac.s3;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
