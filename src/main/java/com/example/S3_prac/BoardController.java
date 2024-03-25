@@ -2,13 +2,10 @@ package com.example.S3_prac;
 
 import com.example.S3_prac.dto.RequestDto;
 import com.example.S3_prac.dto.ResponseDto;
-import com.example.S3_prac.entity.Board;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 

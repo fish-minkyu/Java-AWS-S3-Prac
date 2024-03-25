@@ -36,6 +36,7 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
 
+
 	// Marvin (이미지 리사이징)
 	implementation 'com.github.downgoon:marvin:1.5.5'
 	implementation 'com.github.downgoon:MarvinPlugins:1.5.5'

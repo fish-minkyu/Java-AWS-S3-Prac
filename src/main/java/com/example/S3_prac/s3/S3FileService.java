@@ -43,9 +43,8 @@ public class S3FileService {
       if (Objects.requireNonNull(file.getContentType()).contains("image")) {
 
         String filename = createFilename(file.getOriginalFilename());
-        log.info("filename: {}", filename);
         String fileFormat = file.getContentType().substring(file.getContentType().lastIndexOf("/")+1);
-        log.info("fileFormat: : " + fileFormat);
+        log.info("fileFormat: : "+fileFormat);
 //                String fileExtension = this.getFileExtension(filename);
         if (folder.equals("/profileImg")) {
           file = resizeImage(filename, fileFormat, file, 500);
@@ -91,6 +90,11 @@ public class S3FileService {
   }
 
   @Transactional
+  public void deleteFile(String folder, String filename) {
+    amazonS3.deleteObject(bucket+folder, filename);
+  }
+
+  @Transactional
   public MultipartFile resizeImage(String filename, String fileFormat, MultipartFile originalFile, int targetWidth) {
     try {
       // MultipartFile -> BufferedImage 형태로 변환
@@ -120,10 +124,5 @@ public class S3FileService {
     } catch (IOException e) {
       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 리사이징에 실패했습니다.");
     }
-  }
-
-  @Transactional
-  public void deleteFile(String folder, String filename) {
-    amazonS3.deleteObject(bucket + folder, filename);
   }
 }

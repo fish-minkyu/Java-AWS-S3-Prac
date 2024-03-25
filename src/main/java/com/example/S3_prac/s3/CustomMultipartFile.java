@@ -65,4 +65,3 @@ public class CustomMultipartFile implements MultipartFile {
     FileCopyUtils.copy(this.content, dest);
   }
 }
-

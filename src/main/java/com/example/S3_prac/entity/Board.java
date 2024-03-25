@@ -31,7 +31,7 @@ public class Board {
   }
 
   // imageList NullPointException 발생으로 인한 CustomBuilder
-  public static Board.BoardBuilder customBuilder() {
+  public static BoardBuilder customBuilder() {
     return builder()
       .imageList(new ArrayList<>());
   }

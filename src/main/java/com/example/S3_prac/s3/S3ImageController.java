@@ -26,7 +26,7 @@ public class S3ImageController {
     @RequestPart RequestDto dto
 //    @RequestParam("files") List<MultipartFile> files,
 //    @ModelAttribute RequestDto dto
-    ) {
+  ) {
     log.info("title: {}", dto.getTitle());
     log.info("content: {}", dto.getContent());
 
@@ -35,4 +35,3 @@ public class S3ImageController {
     return ResponseEntity.ok(lists.get(0));
   }
 }
-
