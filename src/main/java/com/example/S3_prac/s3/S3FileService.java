@@ -126,5 +126,4 @@ public class S3FileService {
   public void deleteFile(String folder, String filename) {
     amazonS3.deleteObject(bucket + folder, filename);
   }
-
 }
