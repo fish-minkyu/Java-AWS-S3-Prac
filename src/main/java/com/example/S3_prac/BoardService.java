@@ -59,10 +59,10 @@ public class BoardService {
 
           // 임시 저장 리스트에 추가
           imageToSave.add(targetImage);
-
-          // Entity 저장
-          imageRepository.saveAll(imageToSave);
         }
+
+        // Entity 저장
+        imageRepository.saveAll(imageToSave);
       }
 
       // Entity 저장
@@ -93,14 +93,16 @@ public class BoardService {
 
     if (!targetBoard.getImageList().isEmpty()) {
       // Image 찾기
-      List<Image> targetImage = imageRepository.findAllByBoard_Id(boardId);
+      List<Image> targetImages = imageRepository.findAllByBoard_Id(boardId);
 
-      for (Image image : targetImage) {
+      for (Image image : targetImages) {
         String filename = image.getUrl().substring(image.getUrl().lastIndexOf("/") + 1);
 
         s3FileService.deleteFile("/boardImg", filename);
-        imageRepository.delete(image);
       }
+
+      // 이미지 한꺼번에 삭제
+      imageRepository.deleteAll(targetImages);
     }
 
     // Board 삭제

@@ -1,5 +1,6 @@
 package com.example.S3_prac.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +21,7 @@ public class Board {
   private String content;
 
   @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+//  @JsonManagedReference
   @Setter
   private List<Image> imageList = new ArrayList<>();
 

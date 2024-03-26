@@ -215,3 +215,100 @@ boardImg/d17515d2-d7e1-4d6d-80a7-cd9b3c519506.png
 
 즉, filename이 매개변수로 들어가야 삭제할 수 있었던 것이다.
 </details>
+
+<details>
+<summary><strong>5. Image객체와 Board 객체 사이에 순환 참조 발생</strong></summary>
+
+## 문제.
+
+write() 메서드를 사용하면 반환값이 순환참조가 발생하여    
+데이터 크기가 매우 큰 상태로 반환되는 문제가 발생했다.
+
+`순환참조 발생`
+```java
+{
+    "id": 1,
+    "title": "test",
+    "content": "test",
+    "imageList": [
+    {
+    "id": 1,
+    "url": "https://s3.ap-northeast-2.amazonaws.com/java-test-s3/boardImg/157633bf-7884-48ce-81dd-3d03ce74c32c.png",
+    "board": {
+    "id": 1,
+    "title": "test",
+    "content": "test",
+    "imageList": [
+    {
+    "id": 1,
+    "url": "https://s3.ap-northeast-2.amazonaws.com/java-test-s3/boardImg/157633bf-7884-48ce-81dd-3d03ce74c32c.png",
+    "board": {
+    "id": 1,
+    "title": "test",
+    "content": "test",
+    "imageList": [
+    {
+    "id": 1,
+    "url": "https://s3.ap-northeast-2.amazonaws.com/java-test-s3/boardImg/
+```
+
+그 이유는, Image 객체와 Board 객체 사이에 순환 참조가 발생하기 때문이다.  
+Image 객체 내부에 Board 객체가  있고, Board 객체 내부에 다시 Image 객체가 있는 구조로  
+되어 있어서 한 객체를 직렬화할 때 서로를 끊임없이 참조하게 되어 결과적으로 무한히 큰 JSON이 생성된다.
+
+
+## 해결.
+
+1. `@JsonManagedReference`와 `@JsonBackReference` 사용하기
+
+Jackson 라이브러리를 사용하고 있다면, 순환 참조를 처리하기 위해 이 어노테이션을 사용할 수 있다.  
+부모 엔티티에 `@JsonManagedReference`를,  
+자식 엔티티에 `@JsonBackReference`를 붙여 순환 참조 문제를 해결할 수 있다.
+
+```java
+public class Board {
+    @JsonManagedReference
+    private List<Image> imageList;
+    // 나머지 코드
+}
+```
+```java
+public class Image {
+    @JsonBackReference
+    private Board board;
+    // 나머지 코드
+}
+```
+
+2. DTO 사용하기
+
+엔티티 클래스(Board, Image) 대신에 순환 참조를 포함하지 않는 DTO 클래스를 만들어서 사용하는 방법이다.  
+이 경우, 클라이언트에 필요한 데이터만을 포함한 새로운 객체를 생성하여 반환한다.  
+이 방법은 응답 데이터를 더 잘 제어할 수 있게 해주며, 비즈니스 로직을 API 레이어로부터 분리하는 데에도 도움이 된다.
+
+```java
+@Getter
+@AllArgsConstructor
+public class BoardDto {
+  // ...
+  
+  private List<String> imageList;
+
+  public static BoardDto fromEntity(Board entity) {
+    // 이미지가 존재할 시, 해당 연관된 데이터를 모두 다 불러오기에 imageUrl만 따로 분리
+    List<String> imageUrl = new ArrayList<>();
+    if (!entity.getImageList().isEmpty()) {
+      for (Image image : entity.getImageList()) {
+        imageUrl.add(image.getImgUrl());
+      }
+    }
+
+    return new BoardDto(
+      // ...
+      imageUrl
+    );
+  }
+}
+```
+
+</details>
