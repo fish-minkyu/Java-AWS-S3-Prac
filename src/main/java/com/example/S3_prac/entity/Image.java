@@ -18,7 +18,7 @@ public class Image {
 
   @ManyToOne(fetch = FetchType.LAZY) // 기본 타입 Eager
   @JoinColumn(name = "board_id")
-//  @JsonBackReference
+  @JsonBackReference
   @Setter
   private Board board;
 }

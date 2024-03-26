@@ -21,7 +21,7 @@ public class Board {
   private String content;
 
   @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
-//  @JsonManagedReference
+  @JsonManagedReference
   @Setter
   private List<Image> imageList = new ArrayList<>();
 
